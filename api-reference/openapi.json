@@ -183,7 +183,7 @@
     "/v1/calendar/mock-availability": {
       "post": {
         "tags": ["Calendar"],
-        "summary": "Mock availability (no auth)",
+        "summary": "Mock availability",
         "description": "Returns mock calendar availability slots for testing calendar integrations.",
         "security": [],
         "parameters": [
@@ -221,24 +221,6 @@
         }
       }
     },
-    "/v1/zapier/auth": {
-      "get": {
-        "tags": ["Integrations"],
-        "summary": "Zapier auth test",
-        "description": "Returns the authenticated company for Zapier connection testing.",
-        "responses": {
-          "200": {
-            "description": "Authenticated company",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/Company" }
-              }
-            }
-          },
-          "401": { "$ref": "#/components/responses/Unauthorized" }
-        }
-      }
-    }
   },
   "components": {
     "schemas": {
