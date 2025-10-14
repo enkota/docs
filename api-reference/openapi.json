@@ -220,6 +220,24 @@
           }
         }
       }
+    },
+    "/v1/zapier/auth": {
+      "get": {
+        "tags": ["Integrations"],
+        "summary": "Zapier auth test",
+        "description": "Returns the authenticated company for Zapier connection testing.",
+        "responses": {
+          "200": {
+            "description": "Authenticated company",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Company" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      }
     }
   },
   "components": {
