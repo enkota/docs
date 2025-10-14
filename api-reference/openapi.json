@@ -24,7 +24,7 @@
           {
             "name": "page",
             "in": "query",
-            "description": "Results page (Laravel-style pagination)",
+            "description": "Results page",
             "schema": { "type": "integer", "format": "int32", "minimum": 1 }
           }
         ],
