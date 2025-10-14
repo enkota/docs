@@ -2,13 +2,13 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Maya API",
-    "description": "OpenAPI specification for the Maya API (v1). Most endpoints require Sanctum personal access tokens via HTTP Bearer.",
+    "description": "OpenAPI specification for the Maya API (v1). Most endpoints require personal access tokens via HTTP Bearer.",
     "version": "1.0.0"
   },
   "servers": [
     {
-      "url": "http://maya.test/api",
-      "description": "Local (Herd) API base"
+      "url": "http://supmaya.com/api",
+      "description": "API base"
     }
   ],
   "security": [
