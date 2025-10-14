@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://supmaya.com/api",
+      "url": "http://tunnel.supmaya.com/api",
       "description": "API base"
     }
   ],
