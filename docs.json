@@ -50,19 +50,8 @@
       {
         "tab": "API reference",
         "openapi": "/api-reference/openapi.json",
-        "groups": [
-          {
-            "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint examples",
-            "pages": [
-              "GET /bots"
-            ]
-          }
+        "pages": [
+          "GET /bots"
         ]
       }
     ],
