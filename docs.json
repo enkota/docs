@@ -15,18 +15,11 @@
         "groups": [
           {
             "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart",
-              "development"
-            ]
+            "pages": ["index", "quickstart"]
           },
           {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
+            "group": "Guides",
+            "pages": ["guides/create-bot", "guides/connect-calendar", "guides/connect-twilio", "guides/connect-whatsapp", "guides/create-ai-prompt", "guides/embed-widgets", "guides/send-leads-to-maya", "guides/manage-leads"]
           }
         ]
       },
@@ -36,9 +29,7 @@
         "groups": [
           {
             "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
+            "pages": ["api-reference/introduction"]
           }
         ]
       }
@@ -62,17 +53,7 @@
     }
   },
   "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+    "options": ["copy", "view", "chatgpt", "claude", "perplexity", "mcp", "cursor", "vscode"]
   },
-  "footer": {
-  }
+  "footer": {}
 }
