@@ -29,7 +29,10 @@
         "groups": [
           {
             "group": "API documentation",
-            "pages": ["api-reference/introduction"]
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/authentication"
+            ]
           }
         ]
       }
