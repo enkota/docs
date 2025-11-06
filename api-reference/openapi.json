@@ -282,7 +282,6 @@
         "properties": {
           "id": { "type": ["integer", "null"], "format": "int64" },
           "phone": { "type": ["string", "null"], "description": "E.164 format (e.g. +14155552671)" },
-          "bot_id": { "type": ["integer", "null"], "format": "int64" },
           "name": { "type": ["string", "null"], "maxLength": 255 },
           "email": { "type": ["string", "null"], "format": "email", "maxLength": 255 },
           "company": { "type": ["string", "null"], "maxLength": 255 },
