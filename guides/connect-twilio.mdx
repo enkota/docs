@@ -2,3 +2,39 @@
 title: 'Connect Twilio SMS'
 description: 'Learn how connect Twilio SMS with Maya.'
 ---
+
+## Integrate with Twilio
+
+1. Navigate to the `Bot` edit page and click the `Outbound channels` tab.
+2. Click the `Connect` button under Twilio.
+3. The number `must not` be used on an existing bot as this can cause active messages to merge into the same SMS conversation.
+
+<img src="/images/bot-twilio.png" style={{width: "300px"}} />
+
+4. Enter your Twilio approved phone number. If your number is US based, please refer to the [Twilio A2P 10DLC documentation](https://help.twilio.com/articles/1260800720410-What-is-A2P-10DLC-). You can manage your number for approval via the Twilio console.
+
+<Warning>US Twilio numbers must apply for [Twilio A2P 10DLC documentation](https://help.twilio.com/articles/1260800720410-What-is-A2P-10DLC-) before it can be approved.</Warning>
+
+5. Add your `Twilio Messaging Service SID` number which can be found on your [Twilio Console](https://console.twilio.com/) under `Develop` -> `Messaging` -> `Services`. 
+
+<Note>It's important you use the `Messaging Service SID` and not your Account SID found on the main dashboard. The messaging service should begin with `MG`.</Note>
+
+<img src="/images/bot-twilio-sid.png" />
+
+6. Add your `Auth Token` which is found on the `Account Dashboard` -> `Account Info`. 
+
+<img src="/images/bot-twilio-auth.png" style={{width: "400px"}}/>
+
+7. Ensure the `Outbound channel` is set to Twilio SMS under the `Outbound channels` on our dashboard.
+
+## Setup Twilio Webhook
+
+You must add our `webhook url` (https://supmaya.com/webhooks/twilio) under the Twilio Console Messaging Configuration of your approved number. 
+
+1. Navigate to `Phone Numbers` -> `Manage` -> `Active Numbers` -> `Your approved number`.
+2. Click the `Configure` tab and scroll down to `Messaging Configuration`.
+3. Under `A message comes in` -> `URL` field, paste in https://supmaya.com/webhooks/twilio
+
+<img src="/images/bot-twilio-webhook.png" />
+
+4. Click save and test out your new integration in our `Playground`.
