@@ -7,18 +7,26 @@ description: "Learn how to create a prompt script for your agent."
 
 The goal of Supmaya is to convert and summarise higher quality leads to book on your external system or follow up via email/phone. Part of this flow is to automate the conversation using AI.
 
-The `Prompt script` is the text that is used to give the bot context about your business.
+The `Prompt script` is the text that is used to give the agent context about your business.
 
-1. Navigate to your bot edit page and click the `AI prompt` tab.
+1. Navigate to your agent edit page and click the `AI prompt` tab.
 
 ### Prompt script
 
 You are welcome to write your own script, but we have included a handy AI prompt generator to get you started.
 
 1. On the `AI prompt` tab, click `AI Prompt Builder` button and fill out the fields.
-2. Be consise yet informative. The goal is to guide the bot by qualifying, finding booking availability and provide the lead a booking link.
+2. Be consise yet informative. The goal is to guide the agent by qualifying, finding booking availability and provide the lead a booking link.
 
 ### Example script
+
+It's important to use the `[WAIT FOR RESPONSE]` separator after each question you wish to ask. This will help the AI determine each question.
+
+It's good to keep your script questions brief and informative for the contact to reply to. Add anything that you think is important for the agent to qualify with the contact.
+
+Use `[START SCRIPT]` and `[END SCRIPT]` to determine the cutoff points of the script.
+
+`[KNOWLEDGE BASE]` can be optionally added to let the agent have further context about your product/business if the contact asks follow up questions.
 
 ```
 [START SCRIPT]
@@ -36,8 +44,13 @@ Excellent, do you have any existing tools or systems you use for lead management
 [WAIT FOR RESPONSE]
 
 [END SCRIPT]
+
+[KNOWLEDGE BASE]
+- Company is based in the US.
+- Over 10,000 happy customers
+- We have Zapier trigger integrations and api support
 ```
 
-## Test with Playground
+## Test the Agent
 
-After your script is saved, please test the flow out under the `Playground` tab of your bot edit page.
+After your script is saved, please test the flow out under the `Test Agent` tab of your agent edit page.
