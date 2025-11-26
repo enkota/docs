@@ -123,54 +123,6 @@
           "403": { "$ref": "#/components/responses/Forbidden" }
         }
       }
-    },
-    "/api/v1/integrations/zapier/subscribe": {
-      "post": {
-        "tags": ["Integrations"],
-        "summary": "Subscribe a Zapier webhook",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "url": { "type": "string", "format": "uri" }
-                },
-                "required": ["url"]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": { "description": "Subscribed" },
-          "401": { "$ref": "#/components/responses/Unauthorized" }
-        }
-      }
-    },
-    "/api/v1/integrations/zapier/unsubscribe": {
-      "post": {
-        "tags": ["Integrations"],
-        "summary": "Unsubscribe a Zapier webhook",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "url": { "type": "string", "format": "uri" }
-                },
-                "required": ["url"]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": { "description": "Unsubscribed" },
-          "401": { "$ref": "#/components/responses/Unauthorized" }
-        }
-      }
     }
   },
   "components": {
