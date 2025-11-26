@@ -20,7 +20,7 @@
         "description": "Returns the authenticated company.",
         "responses": {
           "200": {
-            "description": "Authenticated ucompanyser",
+            "description": "Authenticated company",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/User" }
