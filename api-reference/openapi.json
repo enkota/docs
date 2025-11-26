@@ -16,11 +16,11 @@
     "/api/v1/company": {
       "get": {
         "tags": ["Company"],
-        "summary": "Get current user",
-        "description": "Returns the authenticated user (the company owner or member).",
+        "summary": "Get current company",
+        "description": "Returns the authenticated company.",
         "responses": {
           "200": {
-            "description": "Authenticated user",
+            "description": "Authenticated ucompanyser",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/User" }
