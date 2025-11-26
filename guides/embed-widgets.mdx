@@ -1,6 +1,6 @@
 ---
-title: 'Embed widgets'
-description: 'Add inbound widgets to your website.'
+title: "Embed widgets"
+description: "Add inbound widgets to your website."
 ---
 
 ## Embedded iFrame
@@ -9,29 +9,6 @@ description: 'Add inbound widgets to your website.'
 2. Click the `Copy code` button under Embedded iFrame.
 3. Go to your website and paste the code into an HTML editor or page.
 
-<Note>The iframe will fit statically within a page. If you prefer a traditional chat widget, continue reading.</Note>
-
-## Chat widget
-
-1. Navigate to your `Bot` edit page and click the `Inbound channels` tab.
-2. Click the `Copy code` button under Chat widget.
-3. Go to your website and add the copied code just before the closing `</body>` tag.
-
-### Chat widget customization
-
-You may customize the chat widget with the following paramaters:
-
-`primary` - The overall color of the widget.
-`iconFill` - The fill color of the svg icon.
-
-```
-const widget = new ChatbotWidget(
-    { 
-        botIntegrationId: 1,
-        colors: {
-            primary: "#000000",
-            iconFill: "white"
-        } 
-    }
-)
-```
+<Note>
+  The iframe will fit statically within a page.
+</Note>
