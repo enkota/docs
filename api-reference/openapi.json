@@ -31,6 +31,35 @@
         }
       }
     },
+    "/api/v1/agent/{agent}": {
+      "get": {
+        "tags": ["Agents"],
+        "summary": "Get an agent",
+        "description": "Returns a single agent by ID.",
+        "parameters": [
+          {
+            "name": "agent",
+            "in": "path",
+            "required": true,
+            "description": "Agent ID",
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agent",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Agent" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
     "/api/v1/agents": {
       "get": {
         "tags": ["Agents"],
@@ -55,35 +84,6 @@
           },
           "401": { "$ref": "#/components/responses/Unauthorized" },
           "403": { "$ref": "#/components/responses/Forbidden" }
-        }
-      }
-    },
-    "/api/v1/agent/{agent}": {
-      "get": {
-        "tags": ["Agents"],
-        "summary": "Get a agent",
-        "description": "Returns a single agent by ID.",
-        "parameters": [
-          {
-            "name": "agent",
-            "in": "path",
-            "required": true,
-            "description": "Agent ID",
-            "schema": { "type": "integer", "format": "int64" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Agent",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/Agent" }
-              }
-            }
-          },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "403": { "$ref": "#/components/responses/Forbidden" },
-          "404": { "$ref": "#/components/responses/NotFound" }
         }
       }
     },
@@ -123,8 +123,7 @@
           "403": { "$ref": "#/components/responses/Forbidden" }
         }
       }
-    }
-    ,
+    },
     "/api/v1/contacts/{contact}": {
       "get": {
         "tags": ["Contacts"],
