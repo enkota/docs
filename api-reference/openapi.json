@@ -13,6 +13,24 @@
   ],
   "security": [{ "bearerAuth": [] }],
   "paths": {
+    "/api/v1/company": {
+      "get": {
+        "tags": ["Company"],
+        "summary": "Get current user",
+        "description": "Returns the authenticated user (the company owner or member).",
+        "responses": {
+          "200": {
+            "description": "Authenticated user",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/User" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      }
+    },
     "/api/v1/agents": {
       "get": {
         "tags": ["Agents"],
@@ -40,7 +58,7 @@
         }
       }
     },
-    "/api/v1/agents/{agent}": {
+    "/api/v1/agent/{agent}": {
       "get": {
         "tags": ["Agents"],
         "summary": "Get a agent",
@@ -50,16 +68,16 @@
             "name": "agent",
             "in": "path",
             "required": true,
-            "description": "Bot ID",
+            "description": "Agent ID",
             "schema": { "type": "integer", "format": "int64" }
           }
         ],
         "responses": {
           "200": {
-            "description": "Bot",
+            "description": "Agent",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Bot" }
+                "schema": { "$ref": "#/components/schemas/Agent" }
               }
             }
           },
@@ -69,172 +87,107 @@
         }
       }
     },
-    "/api/v1/agents/{agent}/contacts": {
-      "put": {
-        "tags": ["Contacts"],
-        "summary": "Update a contact for a agent",
-        "description": "Updates an existing contact identified by `id` or `phone` for the current company and agent.",
+    "/api/v1/opportunities/{opportunity}": {
+      "get": {
+        "tags": ["Opportunities"],
+        "summary": "Get an opportunity",
         "parameters": [
           {
-            "name": "agent",
+            "name": "opportunity",
             "in": "path",
             "required": true,
-            "description": "Bot ID",
             "schema": { "type": "integer", "format": "int64" }
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/UpdateContact" }
-            }
-          }
-        },
         "responses": {
           "200": {
-            "description": "Contact updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "ok": { "type": "boolean" },
-                    "opportunity": { "type": "string" },
-                    "data": { "$ref": "#/components/schemas/Contact" }
-                  }
-                }
-              }
-            }
+            "description": "Opportunity",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Opportunity" } } }
           },
           "401": { "$ref": "#/components/responses/Unauthorized" },
           "403": { "$ref": "#/components/responses/Forbidden" },
-          "404": { "$ref": "#/components/responses/NotFound" },
-          "422": { "$ref": "#/components/responses/ValidationError" }
+          "404": { "$ref": "#/components/responses/NotFound" }
         }
       }
     },
-    "/api/v1/agents/{agent}/opportunites": {
-      "post": {
-        "tags": ["Opportunitys"],
-        "summary": "Create/update inbound contact",
-        "description": "Initiates the contact agent conversation. Existing contact entries will initiate a new outreach if status is `completed`.",
-        "parameters": [
-          {
-            "name": "agent",
-            "in": "path",
-            "required": true,
-            "description": "Bot ID",
-            "schema": { "type": "integer", "format": "int64" }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/InboundOpportunity" },
-              "examples": {
-                "basic": {
-                  "value": {
-                    "name": "Jane Smith",
-                    "email": "jane@example.com",
-                    "company": "Example Corp",
-                    "phone": "+14155552671",
-                    "channel": "sms",
-                    "external_id": "crm-12345"
-                  }
-                }
-              }
-            }
-          }
-        },
+    "/api/v1/opportunities": {
+      "get": {
+        "tags": ["Opportunities"],
+        "summary": "List opportunities",
         "responses": {
-          "201": {
-            "description": "Opportunity accepted; agent dispatched",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/OpportunityAccepted" }
-              }
-            }
+          "200": {
+            "description": "Paginated opportunities",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PaginatedOpportunities" } } }
           },
-          "207": {
-            "description": "Contact updated but already in active conversation",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/PartialSuccess" }
-              }
-            }
-          },
-          "402": {
-            "description": "Contact limit reached for current billing period",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/LimitReached" }
-              }
-            }
-          },
-          "422": { "$ref": "#/components/responses/ValidationError" },
           "401": { "$ref": "#/components/responses/Unauthorized" },
           "403": { "$ref": "#/components/responses/Forbidden" }
         }
       }
     },
-    "/api/v1/calendar/mock-availability": {
+    "/api/v1/integrations/zapier/subscribe": {
       "post": {
-        "tags": ["Calendar"],
-        "summary": "Mock availability",
-        "description": "Returns mock calendar availability slots for testing calendar integrations.",
-        "security": [],
-        "parameters": [
-          {
-            "name": "start_time",
-            "in": "query",
-            "description": "ISO8601 start date-time (defaults to tomorrow)",
-            "schema": { "type": "string", "format": "date-time" }
-          },
-          {
-            "name": "end_time",
-            "in": "query",
-            "description": "ISO8601 end date-time (defaults to start + 7 days)",
-            "schema": { "type": "string", "format": "date-time" }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Maximum number of slots to return (default 24)",
-            "schema": { "type": "integer", "format": "int32", "minimum": 1 }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Array of mock availability slots",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": { "$ref": "#/components/schemas/AvailabilitySlot" }
-                }
+        "tags": ["Integrations"],
+        "summary": "Subscribe a Zapier webhook",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": { "type": "string", "format": "uri" }
+                },
+                "required": ["url"]
               }
             }
           }
+        },
+        "responses": {
+          "200": { "description": "Subscribed" },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      }
+    },
+    "/api/v1/integrations/zapier/unsubscribe": {
+      "post": {
+        "tags": ["Integrations"],
+        "summary": "Unsubscribe a Zapier webhook",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": { "type": "string", "format": "uri" }
+                },
+                "required": ["url"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Unsubscribed" },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
         }
       }
     }
   },
   "components": {
     "schemas": {
-      "Bot": {
+      "Agent": {
         "type": "object",
         "properties": {
           "id": { "type": "integer", "format": "int64" },
           "company_id": { "type": "integer", "format": "int64" },
           "name": { "type": "string" },
-          "status": { "type": "boolean" },
-          "timezone": { "type": ["string", "null"] },
           "prompt": { "type": ["string", "null"] },
-          "calendar_channel": { "type": ["string", "null"], "enum": ["calendly", "api", null] },
-          "qualification_channel": { "type": ["string", "null"] },
-          "calendar_api_availability_url": { "type": ["string", "null"], "format": "uri" },
+          "booking_link": { "type": ["string", "null"], "format": "uri" },
+          "webhook_url": { "type": ["string", "null"], "format": "uri" },
+          "webhook_zapier": { "type": ["string", "null"] },
+          "show_heading": { "type": "boolean" },
+          "active": { "type": "boolean" },
+          "customisation": { "type": ["object", "null"] },
           "created_at": { "type": ["string", "null"], "format": "date-time" },
           "updated_at": { "type": ["string", "null"], "format": "date-time" }
         }
@@ -243,13 +196,13 @@
         "type": "object",
         "properties": {
           "id": { "type": "integer", "format": "int64" },
-          "agent_id": { "type": ["integer", "null"], "format": "int64" },
-          "name": { "type": ["string", "null"] },
+          "first_name": { "type": ["string", "null"] },
+          "last_name": { "type": ["string", "null"] },
+          "company": { "type": ["string", "null"] },
           "email": { "type": ["string", "null"], "format": "email" },
           "phone": { "type": ["string", "null"] },
-          "company": { "type": ["string", "null"] },
-          "external_id": { "type": ["string", "null"] },
-          "status": { "type": ["string", "null"], "enum": ["new", "open", "completed", null] },
+          "company_id": { "type": ["integer", "null"], "format": "int64" },
+          "is_test": { "type": "boolean" },
           "created_at": { "type": ["string", "null"], "format": "date-time" },
           "updated_at": { "type": ["string", "null"], "format": "date-time" }
         }
@@ -261,6 +214,7 @@
           "name": { "type": "string" },
           "owner_id": { "type": ["integer", "null"], "format": "int64" },
           "billing_cycle_start_date": { "type": ["string", "null"], "format": "date-time" },
+          "billing_cycle_end_date": { "type": ["string", "null"], "format": "date-time" },
           "created_at": { "type": ["string", "null"], "format": "date-time" },
           "updated_at": { "type": ["string", "null"], "format": "date-time" }
         }
@@ -282,10 +236,12 @@
         "properties": {
           "id": { "type": ["integer", "null"], "format": "int64" },
           "phone": { "type": ["string", "null"], "description": "E.164 format (e.g. +14155552671)" },
-          "name": { "type": ["string", "null"], "maxLength": 255 },
+          "first_name": { "type": ["string", "null"], "maxLength": 255 },
+          "last_name": { "type": ["string", "null"], "maxLength": 255 },
           "email": { "type": ["string", "null"], "format": "email", "maxLength": 255 },
           "company": { "type": ["string", "null"], "maxLength": 255 },
-          "external_id": { "type": ["string", "null"], "maxLength": 255 }
+          "company_id": { "type": ["integer", "null"], "format": "int64" },
+          "is_test": { "type": ["boolean", "null"] }
         }
       },
       "AvailabilitySlot": {
@@ -336,10 +292,47 @@
         "properties": {
           "data": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/Bot" }
+            "items": { "$ref": "#/components/schemas/Agent" }
           },
           "links": { "$ref": "#/components/schemas/PaginationLinks" },
           "meta": { "$ref": "#/components/schemas/PaginationMeta" }
+        }
+      },
+      "Opportunity": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int64" },
+          "name": { "type": "string" },
+          "status": { "type": ["string", "null"] },
+          "summary": { "type": ["string", "null"] },
+          "value": { "type": ["number", "null"], "format": "float" },
+          "contact_id": { "type": ["integer", "null"], "format": "int64" },
+          "agent_id": { "type": ["integer", "null"], "format": "int64" },
+          "follow_up_requested": { "type": "boolean" },
+          "follow_up_type": { "type": ["string", "null"] },
+          "webhook_sent": { "type": "boolean" },
+          "company_id": { "type": ["integer", "null"], "format": "int64" },
+          "created_at": { "type": ["string", "null"], "format": "date-time" },
+          "updated_at": { "type": ["string", "null"], "format": "date-time" }
+        }
+      },
+      "PaginatedOpportunities": {
+        "type": "object",
+        "properties": {
+          "data": { "type": "array", "items": { "$ref": "#/components/schemas/Opportunity" } },
+          "links": { "$ref": "#/components/schemas/PaginationLinks" },
+          "meta": { "$ref": "#/components/schemas/PaginationMeta" }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int64" },
+          "name": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "current_company_id": { "type": ["integer", "null"], "format": "int64" },
+          "created_at": { "type": ["string", "null"], "format": "date-time" },
+          "updated_at": { "type": ["string", "null"], "format": "date-time" }
         }
       },
       "OpportunityAccepted": {
