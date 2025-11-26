@@ -124,6 +124,59 @@
         }
       }
     }
+    ,
+    "/api/v1/contacts/{contact}": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Get a contact",
+        "description": "Returns a single contact by ID.",
+        "parameters": [
+          {
+            "name": "contact",
+            "in": "path",
+            "required": true,
+            "description": "Contact ID",
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contact",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Contact" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/api/v1/contacts": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "List contacts",
+        "description": "Returns a paginated list of contacts for the authenticated company.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Results page",
+            "schema": { "type": "integer", "format": "int32", "minimum": 1 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated contacts",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PaginatedContacts" } } }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
+        }
+      }
+    }
   },
   "components": {
     "schemas": {
@@ -131,7 +184,6 @@
         "type": "object",
         "properties": {
           "id": { "type": "integer", "format": "int64" },
-          "company_id": { "type": "integer", "format": "int64" },
           "name": { "type": "string" },
           "prompt": { "type": ["string", "null"] },
           "booking_link": { "type": ["string", "null"], "format": "uri" },
@@ -153,8 +205,6 @@
           "company": { "type": ["string", "null"] },
           "email": { "type": ["string", "null"], "format": "email" },
           "phone": { "type": ["string", "null"] },
-          "company_id": { "type": ["integer", "null"], "format": "int64" },
-          "is_test": { "type": "boolean" },
           "created_at": { "type": ["string", "null"], "format": "date-time" },
           "updated_at": { "type": ["string", "null"], "format": "date-time" }
         }
@@ -191,9 +241,7 @@
           "first_name": { "type": ["string", "null"], "maxLength": 255 },
           "last_name": { "type": ["string", "null"], "maxLength": 255 },
           "email": { "type": ["string", "null"], "format": "email", "maxLength": 255 },
-          "company": { "type": ["string", "null"], "maxLength": 255 },
-          "company_id": { "type": ["integer", "null"], "format": "int64" },
-          "is_test": { "type": ["boolean", "null"] }
+          "company": { "type": ["string", "null"], "maxLength": 255 }
         }
       },
       "AvailabilitySlot": {
@@ -250,6 +298,17 @@
           "meta": { "$ref": "#/components/schemas/PaginationMeta" }
         }
       },
+      "PaginatedContacts": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Contact" }
+          },
+          "links": { "$ref": "#/components/schemas/PaginationLinks" },
+          "meta": { "$ref": "#/components/schemas/PaginationMeta" }
+        }
+      },
       "Opportunity": {
         "type": "object",
         "properties": {
@@ -280,11 +339,7 @@
         "type": "object",
         "properties": {
           "id": { "type": "integer", "format": "int64" },
-          "name": { "type": "string" },
-          "email": { "type": "string", "format": "email" },
-          "current_company_id": { "type": ["integer", "null"], "format": "int64" },
-          "created_at": { "type": ["string", "null"], "format": "date-time" },
-          "updated_at": { "type": ["string", "null"], "format": "date-time" }
+          "name": { "type": "string" }
         }
       },
       "OpportunityAccepted": {
