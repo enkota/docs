@@ -13,11 +13,11 @@
   ],
   "security": [{ "bearerAuth": [] }],
   "paths": {
-    "/api/v1/bots": {
+    "/api/v1/agents": {
       "get": {
-        "tags": ["Bots"],
-        "summary": "List bots",
-        "description": "Returns a paginated list of bots for the authenticated company.",
+        "tags": ["Agents"],
+        "summary": "List agents",
+        "description": "Returns a paginated list of agents for the authenticated company.",
         "parameters": [
           {
             "name": "page",
@@ -28,10 +28,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Paginated bots response",
+            "description": "Paginated agents response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/PaginatedBots" }
+                "schema": { "$ref": "#/components/schemas/PaginatedAgents" }
               }
             }
           },
@@ -40,14 +40,14 @@
         }
       }
     },
-    "/api/v1/bots/{bot}": {
+    "/api/v1/agents/{agent}": {
       "get": {
-        "tags": ["Bots"],
-        "summary": "Get a bot",
-        "description": "Returns a single bot by ID.",
+        "tags": ["Agents"],
+        "summary": "Get a agent",
+        "description": "Returns a single agent by ID.",
         "parameters": [
           {
-            "name": "bot",
+            "name": "agent",
             "in": "path",
             "required": true,
             "description": "Bot ID",
@@ -69,14 +69,14 @@
         }
       }
     },
-    "/api/v1/bots/{bot}/leads": {
+    "/api/v1/agents/{agent}/contacts": {
       "put": {
-        "tags": ["Leads"],
-        "summary": "Update a lead for a bot",
-        "description": "Updates an existing lead identified by `id` or `phone` for the current company and bot.",
+        "tags": ["Contacts"],
+        "summary": "Update a contact for a agent",
+        "description": "Updates an existing contact identified by `id` or `phone` for the current company and agent.",
         "parameters": [
           {
-            "name": "bot",
+            "name": "agent",
             "in": "path",
             "required": true,
             "description": "Bot ID",
@@ -87,21 +87,21 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/UpdateLead" }
+              "schema": { "$ref": "#/components/schemas/UpdateContact" }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Lead updated successfully",
+            "description": "Contact updated successfully",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
                     "ok": { "type": "boolean" },
-                    "message": { "type": "string" },
-                    "data": { "$ref": "#/components/schemas/Lead" }
+                    "opportunity": { "type": "string" },
+                    "data": { "$ref": "#/components/schemas/Contact" }
                   }
                 }
               }
@@ -114,14 +114,14 @@
         }
       }
     },
-    "/api/v1/bots/{bot}/messages": {
+    "/api/v1/agents/{agent}/opportunites": {
       "post": {
-        "tags": ["Messages"],
-        "summary": "Create/update inbound lead",
-        "description": "Initiates the lead bot conversation. Existing lead entries will initiate a new outreach if status is `completed`.",
+        "tags": ["Opportunitys"],
+        "summary": "Create/update inbound contact",
+        "description": "Initiates the contact agent conversation. Existing contact entries will initiate a new outreach if status is `completed`.",
         "parameters": [
           {
-            "name": "bot",
+            "name": "agent",
             "in": "path",
             "required": true,
             "description": "Bot ID",
@@ -132,7 +132,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/InboundMessage" },
+              "schema": { "$ref": "#/components/schemas/InboundOpportunity" },
               "examples": {
                 "basic": {
                   "value": {
@@ -150,15 +150,15 @@
         },
         "responses": {
           "201": {
-            "description": "Message accepted; bot dispatched",
+            "description": "Opportunity accepted; agent dispatched",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/MessageAccepted" }
+                "schema": { "$ref": "#/components/schemas/OpportunityAccepted" }
               }
             }
           },
           "207": {
-            "description": "Lead updated but already in active conversation",
+            "description": "Contact updated but already in active conversation",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/PartialSuccess" }
@@ -166,7 +166,7 @@
             }
           },
           "402": {
-            "description": "Lead limit reached for current billing period",
+            "description": "Contact limit reached for current billing period",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/LimitReached" }
@@ -239,11 +239,11 @@
           "updated_at": { "type": ["string", "null"], "format": "date-time" }
         }
       },
-      "Lead": {
+      "Contact": {
         "type": "object",
         "properties": {
           "id": { "type": "integer", "format": "int64" },
-          "bot_id": { "type": ["integer", "null"], "format": "int64" },
+          "agent_id": { "type": ["integer", "null"], "format": "int64" },
           "name": { "type": ["string", "null"] },
           "email": { "type": ["string", "null"], "format": "email" },
           "phone": { "type": ["string", "null"] },
@@ -265,7 +265,7 @@
           "updated_at": { "type": ["string", "null"], "format": "date-time" }
         }
       },
-      "InboundMessage": {
+      "InboundOpportunity": {
         "type": "object",
         "required": ["name", "phone"],
         "properties": {
@@ -273,11 +273,11 @@
           "email": { "type": ["string", "null"], "format": "email", "maxLength": 255 },
           "company": { "type": ["string", "null"], "maxLength": 255 },
           "phone": { "type": "string", "description": "E.164 format (e.g. +14155552671)" },
-          "channel": { "type": ["string", "null"], "description": "Use for the initial outreach. Allowed values - `sms` or `whatsapp`. If omitted, the bot's configured `qualification_channel` will be used.", "maxLength": 100 },
+          "channel": { "type": ["string", "null"], "description": "Use for the initial outreach. Allowed values - `sms` or `whatsapp`. If omitted, the agent's configured `qualification_channel` will be used.", "maxLength": 100 },
           "external_id": { "type": ["string", "null"], "maxLength": 255 }
         }
       },
-      "UpdateLead": {
+      "UpdateContact": {
         "type": "object",
         "properties": {
           "id": { "type": ["integer", "null"], "format": "int64" },
@@ -331,7 +331,7 @@
           "next": { "type": ["string", "null"], "format": "uri" }
         }
       },
-      "PaginatedBots": {
+      "PaginatedAgents": {
         "type": "object",
         "properties": {
           "data": {
@@ -342,16 +342,16 @@
           "meta": { "$ref": "#/components/schemas/PaginationMeta" }
         }
       },
-      "MessageAccepted": {
+      "OpportunityAccepted": {
         "type": "object",
         "properties": {
           "ok": { "type": "boolean" },
-          "message": { "type": "string" },
+          "opportunity": { "type": "string" },
           "data": {
             "type": "object",
             "properties": {
-              "lead_id": { "type": "integer", "format": "int64" },
-              "bot_id": { "type": "integer", "format": "int64" },
+              "contact_id": { "type": "integer", "format": "int64" },
+              "agent_id": { "type": "integer", "format": "int64" },
               "status": { "type": "string" },
               "channel": { "type": "string" }
             }
@@ -362,7 +362,7 @@
         "type": "object",
         "properties": {
           "ok": { "type": "boolean" },
-          "message": { "type": "string" },
+          "opportunity": { "type": "string" },
           "errors": {
             "type": "object",
             "additionalProperties": {
@@ -376,24 +376,24 @@
         "type": "object",
         "properties": {
           "ok": { "type": "boolean" },
-          "message": { "type": "string" },
+          "opportunity": { "type": "string" },
           "limit_reached": { "type": "boolean" },
-          "leads_contacted": { "type": "integer" },
-          "leads_allowed": { "type": "integer" }
+          "contacts_contacted": { "type": "integer" },
+          "contacts_allowed": { "type": "integer" }
         }
       },
       "Error": {
         "type": "object",
-        "required": ["message"],
+        "required": ["opportunity"],
         "properties": {
-          "message": { "type": "string" }
+          "opportunity": { "type": "string" }
         }
       },
       "ValidationProblem": {
         "type": "object",
-        "required": ["message", "errors"],
+        "required": ["opportunity", "errors"],
         "properties": {
-          "message": { "type": "string" },
+          "opportunity": { "type": "string" },
           "errors": {
             "type": "object",
             "additionalProperties": {
