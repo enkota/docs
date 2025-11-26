@@ -1,14 +1,70 @@
 ---
 title: "Embed widgets"
-description: "Add inbound widgets to your website."
+description: "Add Supmaya widgets to your website."
 ---
 
 ## Embedded iFrame
 
-1. Navigate to your `Bot` edit page and click the `Inbound channels` tab.
-2. Click the `Copy code` button under Embedded iFrame.
-3. Go to your website and paste the code into an HTML editor or page.
+The embedded iframe allows you to display the agent form to feel like it's within your website.
 
 <Note>
-  The iframe will fit statically within a page.
+  The widget will fit dynamically within a page to stop scrolling within the iframe.
 </Note>
+
+1. Navigate to your `Agent` edit page and click the `Install agents` tab.
+2. Click the `Embed Agent` button under Embedded iFrame.
+3. Copy the `Embed Script` and paste it before your closing `</head>` tag.
+4. Copy your `Embed Agent` iframe code and paste it on your HTML editor or page.
+
+There is also support for dynamic heights based on the content to stop scrolling within an iframe. This can be toggled by setting `data-supmaya-dynamic-height="1"` to `0`.
+
+## Popup Agent
+
+The popup agent allows you to display the agent form as a popup and trigger from a button click or automatically.
+
+<Note>
+  The popup widget has configurations to customise how and where it should appear.
+</Note>
+
+1. Navigate to your `Agent` edit page and click the `Install agents` tab.
+2. Click the `Popup Agent` button under Embedded iFrame.
+3. Copy the `Embed Script` and paste it before your closing `</head>` tag.
+4. Copy your `Trigger Popup` code and paste the button wherever you would like to trigger it. You can add the `data-supmaya-open` and `data-supmaya-position="center"` data values to any clickable element like a button, div, or link.
+5. For further customisations, refer to the javacript options below.
+
+```javascript expandable
+<script
+window.addEventListener('DOMContentLoaded', () => {
+    if (!window.SupmayaPopup) {
+        console.error('SupmayaPopup script not loaded')
+        return
+    }
+
+    // Initialize the popup
+    window.SupmayaPopup.init({
+        iframeSrc: 'https://supmaya.com/agents/1',
+        width: 420,
+        position: 'center',
+        triggers: {
+            openOnLoad: false,
+            delayEnabled: false,
+            delaySeconds: 5,
+            exitIntent: true,
+            scrollEnabled: false,
+            scrollPercent: 60
+        }
+    })
+
+    // Custom JavaScript trigger example.
+    const jsButton = document.getElementById('js-open')
+    if (jsButton) {
+        jsButton.addEventListener('click', () => {
+            window.SupmayaPopup.open({
+                position: 'center',
+                width: 480
+            })
+        })
+    }
+})
+</script>
+```
