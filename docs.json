@@ -24,7 +24,8 @@
             "pages": [
               "guides/create-agent",
               "guides/create-ai-prompt",
-              "guides/embed-widgets"
+              "guides/embed-widgets",
+              "guides/integrations"
             ]
           }
         ]
