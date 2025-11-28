@@ -344,7 +344,6 @@
           "follow_up_requested": { "type": "boolean" },
           "follow_up_type": { "type": ["string", "null"] },
           "webhook_sent": { "type": "boolean" },
-          "company_id": { "type": ["integer", "null"], "format": "int64" },
           "created_at": { "type": ["string", "null"], "format": "date-time" },
           "updated_at": { "type": ["string", "null"], "format": "date-time" }
         }
