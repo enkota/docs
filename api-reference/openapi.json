@@ -207,7 +207,8 @@
         "properties": {
           "id": { "type": "integer", "format": "int64" },
           "name": { "type": "string" },
-          "prompt": { "type": ["string", "null"] },
+          "questions": { "type": ["string", "null"] },
+          "knowledge_base": { "type": ["string", "null"] },
           "booking_link": { "type": ["string", "null"], "format": "uri" },
           "webhook_url": { "type": ["string", "null"], "format": "uri" },
           "webhook_zapier": { "type": ["string", "null"] },
