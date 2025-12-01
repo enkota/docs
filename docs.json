@@ -23,7 +23,7 @@
             "group": "Guides",
             "pages": [
               "guides/create-agent",
-              "guides/create-ai-prompt",
+              "guides/configure-agent",
               "guides/embed-widgets",
               "guides/integrations"
             ]
